@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Фигурки ручной работы{% endblock %}
+
+{% block content %}
+    <h1>Фигурки ручной работы</h1>
+    <form method="get">
+        {{ filter.form.as_p }}
+        <button type="submit">Фильтровать</button>
+    </form>
+    <ul>
+        {% for figure in figures %}
+        <li>
+            <a href="{% url 'figure_detail' figure.slug %}">{{ figure.name }}</a> - {{ figure.price }} - Категория: {{ figure.category.name }}
+        </li>
+        {% empty %}
+        <li>Нет фигурок для отображения.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

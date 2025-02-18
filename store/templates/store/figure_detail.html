@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ figure.name }} - Детали{% endblock %}
+
+{% block content %}
+    <h1>{{ figure.name }}</h1>
+    <img src="{{ figure.image.url }}" alt="{{ figure.name }}" style="max-width: 300px;">
+    <p><strong>Описание:</strong> {{ figure.description }}</p>
+    <p><strong>Цена:</strong> {{ figure.price }}</p>
+    <p><strong>Категория:</strong> {{ figure.category.name }}</p>
+    <p><strong>Дата создания:</strong> {{ figure.created_at }}</p>
+    <p><strong>Последнее обновление:</strong> {{ figure.updated_at }}</p>
+
+    <h2>Отзывы</h2>
+    <ul>
+        {% for review in figure.reviews.all %}
+        <li>
+            <p><strong>Пользователь:</strong> {{ review.user.username }}</p>
+            <p><strong>Отзыв:</strong> {{ review.text }}</p>
+            <p><strong>Рейтинг:</strong> {{ review.rating }}/5</p>
+            <p><strong>Дата:</strong> {{ review.created_at }}</p>
+        </li>
+        {% empty %}
+        <li>Пока нет отзывов.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+    <h2>Оставить отзыв</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить отзыв</button>
+    </form>
+    {% else %}
+    <p>Для того чтобы оставить отзыв, <a href="{% url 'login' %}">войдите</a> в систему.</p>
+    {% endif %}
+
+    <h2>Рекомендуемые фигурки</h2>
+    <div class="recommendations">
+        {% for recommended_figure in recommendations %}
+            <div class="recommended-item">
+                <a href="{% url 'figure_detail' slug=recommended_figure.slug %}">
+                    <img src="{{ recommended_figure.image.url }}" alt="{{ recommended_figure.name }}" style="max-width: 100px;">
+                    <p>{{ recommended_figure.name }}</p>
+                </a>
+            </div>
+        {% empty %}
+            <p>Нет рекомендаций в этой категории.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'figure_list' %}">Вернуться к списку фигурок</a>
+{% endblock %}

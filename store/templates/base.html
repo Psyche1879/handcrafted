@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}Приют Героев Фейруна{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>{% block header_title %}Приют Героев Фейруна{% endblock %}</h1>
+        <p>{% block header_subtitle %}Место, где каждая фигурка рассказывает свою историю{% endblock %}</p>
+    </div>
+
+    <div class="content">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>© 2025 {% block footer_text %}Приют Героев Фейруна. Все права защищены.{% endblock %}</p>
+    </footer>
+</body>
+</html>
